@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const BooksList = () => {
   const [bookshelfes, setBookshelfes] = useState([
@@ -55,6 +56,30 @@ const BooksList = () => {
     },
   ])
 
+  const moveToShelf = (e) => {
+    // console.log(e.target.value)
+    // console.log(e.target.name)
+
+    let updatedBookshelfes = []
+
+    bookshelfes.filter((bookshelf) => {
+      const newBooksInBookshelf = bookshelf.books.filter(
+        (book) => book.title !== e.target.name,
+      )
+
+      const newBookshelf = {
+        category: bookshelf.category,
+        books: newBooksInBookshelf,
+      }
+      updatedBookshelfes.push(newBookshelf)
+    })
+
+    // debugger
+
+    setBookshelfes(updatedBookshelfes)
+    // debugger
+  }
+
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -80,7 +105,10 @@ const BooksList = () => {
                             }}
                           ></div>
                           <div className="book-shelf-changer">
-                            <select>
+                            <select
+                              name={book.title}
+                              onChange={(e) => moveToShelf(e)}
+                            >
                               <option value="none" disabled>
                                 Move to...
                               </option>
@@ -106,6 +134,10 @@ const BooksList = () => {
       </div>
     </div>
   )
+}
+
+BooksList.propTypes = {
+  bookshelfes: PropTypes.array.isRequired,
 }
 
 export default BooksList

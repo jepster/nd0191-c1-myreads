@@ -57,15 +57,41 @@ const BooksList = () => {
   ])
 
   const moveToShelf = (e) => {
-    // console.log(e.target.value)
-    // console.log(e.target.name)
+    const selectedCategory = e.target.value
+    const selectedBookTitle = e.target.name
+
+    const bookToMoveWithCategory = (() => {
+      let bookToMove = {}
+      bookshelfes.filter((bookshelf) => {
+        const returnValue = bookshelf.books.filter(
+          // eslint-disable-next-line array-callback-return
+          (book) => {
+            if (book.title === selectedBookTitle) {
+              return book
+            }
+          },
+        )
+
+        if (returnValue.length !== 0) {
+          bookToMove = returnValue[0]
+        }
+      })
+
+      return {
+        category: selectedCategory,
+        book: bookToMove,
+      }
+    })()
 
     let updatedBookshelfes = []
-
     bookshelfes.filter((bookshelf) => {
-      const newBooksInBookshelf = bookshelf.books.filter(
-        (book) => book.title !== e.target.name,
+      let newBooksInBookshelf = bookshelf.books.filter(
+        (book) => book.title !== selectedBookTitle,
       )
+
+      if (selectedCategory === bookshelf.category) {
+        newBooksInBookshelf.push(bookToMoveWithCategory.book)
+      }
 
       const newBookshelf = {
         category: bookshelf.category,
@@ -74,10 +100,7 @@ const BooksList = () => {
       updatedBookshelfes.push(newBookshelf)
     })
 
-    // debugger
-
     setBookshelfes(updatedBookshelfes)
-    // debugger
   }
 
   return (
@@ -88,12 +111,12 @@ const BooksList = () => {
       <div className="list-books-content">
         <div>
           {bookshelfes.map((bookshelf) => (
-            <div className="bookshelf">
+            <div className="bookshelf" key={bookshelf.category}>
               <h2 className="bookshelf-title">{bookshelf.category}</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
                   {bookshelf.books.map((book) => (
-                    <li>
+                    <li key={book.title}>
                       <div className="book">
                         <div className="book-top">
                           <div
@@ -112,12 +135,12 @@ const BooksList = () => {
                               <option value="none" disabled>
                                 Move to...
                               </option>
-                              <option value="currentlyReading">
+                              <option value="None">None</option>
+                              <option value="Currently Reading">
                                 Currently Reading
                               </option>
-                              <option value="wantToRead">Want to Read</option>
-                              <option value="read">Read</option>
-                              <option value="none">None</option>
+                              <option value="Want to Read">Want to Read</option>
+                              <option value="Read">Read</option>
                             </select>
                           </div>
                         </div>
@@ -137,7 +160,7 @@ const BooksList = () => {
 }
 
 BooksList.propTypes = {
-  bookshelfes: PropTypes.array.isRequired,
+  bookshelfes: PropTypes.array,
 }
 
 export default BooksList

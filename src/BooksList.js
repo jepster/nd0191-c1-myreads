@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { getAll } from './BooksAPI'
+import {getAll, update} from './BooksAPI'
 
 const BooksList = () => {
 
@@ -20,7 +20,8 @@ const BooksList = () => {
         const bookInfo = {
           title: book.title,
           authors: book.authors.join(', '),
-          imageUrl: book.imageLinks.thumbnail
+          imageUrl: book.imageLinks.thumbnail,
+          id: book.id
         }
 
         switch (book.shelf) {
@@ -57,7 +58,7 @@ const BooksList = () => {
 
   const moveToShelf = (e) => {
     const selectedCategory = e.target.value
-    const selectedBookTitle = e.target.name
+    const selectedBookId = e.target.name
 
     const bookToMoveWithCategory = (() => {
       let bookToMove = {}
@@ -65,7 +66,7 @@ const BooksList = () => {
         const returnValue = bookshelf.books.filter(
           // eslint-disable-next-line array-callback-return
           (book) => {
-            if (book.title === selectedBookTitle) {
+            if (book.id === selectedBookId) {
               return book
             }
           },
@@ -76,6 +77,18 @@ const BooksList = () => {
         }
       })
 
+      switch (selectedCategory) {
+        case 'Currently Reading':
+          update(bookToMove, 'currentlyReading');
+          break;
+        case 'Want to Read':
+          update(bookToMove, 'wantToRead');
+          break;
+        case 'Read':
+          update(bookToMove, 'read');
+          break;
+      }
+
       return {
         category: selectedCategory,
         book: bookToMove,
@@ -85,7 +98,7 @@ const BooksList = () => {
     let updatedBookshelfes = []
     bookshelfes.filter((bookshelf) => {
       let newBooksInBookshelf = bookshelf.books.filter(
-        (book) => book.title !== selectedBookTitle,
+        (book) => book.id !== selectedBookId,
       )
 
       if (selectedCategory === bookshelf.category) {
@@ -128,7 +141,7 @@ const BooksList = () => {
                           ></div>
                           <div className="book-shelf-changer">
                             <select
-                              name={book.title}
+                              name={book.id}
                               onChange={(e) => moveToShelf(e)}
                             >
                               <option value="no-selection">Move to...</option>

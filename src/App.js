@@ -1,7 +1,8 @@
 import "./App.css";
 // import { useState } from "react";
 import BooksList from "./BooksList";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
+import Search from './Search';
 
 function App() {
   let navigate = useNavigate();
@@ -24,25 +25,7 @@ function App() {
         exact
         path="/search"
         element={
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a
-                className="close-search"
-                onClick={() => navigate('/')}
-              >
-                Close
-              </a>
-              <div className="search-books-input-wrapper">
-                <input
-                  type="text"
-                  placeholder="Search by title, author, or ISBN"
-                />
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
+          <Search/>
         }
       />
     </Routes>

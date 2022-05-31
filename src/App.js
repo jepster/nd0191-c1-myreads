@@ -16,7 +16,7 @@ function App() {
           <div>
             <BooksList/>
             <div className="open-search">
-              <a onClick={() => navigate('/search')}>Add a book</a>
+              <a onClick={() => navigate('/search')}>Search books</a>
             </div>
           </div>
         }

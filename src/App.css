@@ -57,7 +57,8 @@ body,
   height: 50px;
   border-radius: 50%;
   background: #2e7d32;
-  background-image: url("./icons/add.svg");
+  background-image: url("./icons/magnifying-glass-solid.svg");
+  cursor: pointer;
   background-repeat: no-repeat;
   background-position: center;
   background-size: 28px;
@@ -100,6 +101,7 @@ body,
   background-repeat: no-repeat;
   background-size: 28px;
   font-size: 0;
+  cursor: pointer;
 }
 
 .search-books-results {

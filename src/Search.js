@@ -196,43 +196,47 @@ const Search = () => {
 
       <div className="search-books-results">
         <h2>Search results</h2>
-        Type into the input search field to get search results.
+
+
+        {searchResults.length > 0 ?
+
         <ol className="books-grid">
-            <ol className="books-grid">
-              {searchResults.map((book) => (
-                <li key={book.id + book.title}>
-                  <div className="book">
-                    <div className="book-top">
-                      <div
-                        className="book-cover"
-                        style={{
-                          width: 128,
-                          height: 193,
-                          backgroundImage: 'url(' + book.imageUrl + ')',
-                        }}
-                      ></div>
-                      <div className="book-shelf-changer">
-                        <select
-                          name={book.id}
-                          onChange={(e) => moveToShelf(e)}
-                        >
-                          <option value="no-selection">Move to...</option>
-                          <option value="None">None</option>
-                          <option value="Currently Reading">
-                            Currently Reading
-                          </option>
-                          <option value="Want to Read">Want to Read</option>
-                          <option value="Read">Read</option>
-                        </select>
-                      </div>
+          <ol className="books-grid">
+            {searchResults.map((book) => (
+              <li key={book.id + book.title}>
+                <div className="book">
+                  <div className="book-top">
+                    <div
+                      className="book-cover"
+                      style={{
+                        width: 128,
+                        height: 193,
+                        backgroundImage: 'url(' + book.imageUrl + ')',
+                      }}
+                    ></div>
+                    <div className="book-shelf-changer">
+                      <select
+                        name={book.id}
+                        onChange={(e) => moveToShelf(e)}
+                      >
+                        <option value="no-selection">Move to...</option>
+                        <option value="None">None</option>
+                        <option value="Currently Reading">
+                          Currently Reading
+                        </option>
+                        <option value="Want to Read">Want to Read</option>
+                        <option value="Read">Read</option>
+                      </select>
                     </div>
-                    <div className="book-title">{book.title}</div>
-                    <div className="book-authors">{book.authors}</div>
                   </div>
-                </li>
-              ))}
+                  <div className="book-title">{book.title}</div>
+                  <div className="book-authors">{book.authors}</div>
+                </div>
+              </li>
+            ))}
           </ol>
         </ol>
+       : 'Type into the input search field to get search results.' }
       </div>
     </div>
   )

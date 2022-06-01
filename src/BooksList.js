@@ -19,7 +19,12 @@ const BooksList = () => {
       res.forEach((book) => {
         const bookInfo = {
           title: book.title,
-          authors: book.authors.join(', '),
+          authors: ((authors) => {
+            if (Array.isArray(authors) && authors.length > 0) {
+              return authors.join(', ')
+            }
+            return authors
+          })(book.authors),
           imageUrl: book.imageLinks.thumbnail,
           id: book.id
         }

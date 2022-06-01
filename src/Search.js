@@ -119,16 +119,14 @@ const Search = () => {
 
         const bookInfo = {
           title: book.title,
-          // authors: book.authors.join(', '),
+          authors: ((authors) => {
+            if (Array.isArray(authors) && authors.length > 0) {
+              return authors.join(', ')
+            }
+            return authors
+          })(book.authors),
           imageUrl: book.imageLinks.thumbnail,
           id: book.id,
-          // isbnNumbers: ((book) => {
-          //   const isbnNumbersRaw = []
-          //   book.industryIdentifiers.forEach((industryIdentifier) => {
-          //     isbnNumbersRaw.push(industryIdentifier.identifier)
-          //   })
-          //   return isbnNumbersRaw.join(', ')
-          // })(book),
         }
 
         books.push(bookInfo);
@@ -195,8 +193,10 @@ const Search = () => {
         </ol>
       </div>
 
+
       <div className="search-books-results">
         <h2>Search results</h2>
+        Type into the input search field to get search results.
         <ol className="books-grid">
             <ol className="books-grid">
               {searchResults.map((book) => (

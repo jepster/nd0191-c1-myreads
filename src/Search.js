@@ -236,7 +236,7 @@ const Search = () => {
             ))}
           </ol>
         </ol>
-       : 'Type into the input search field to get search results.' }
+       : 'Type into the search field to get search results.' }
       </div>
     </div>
   )
